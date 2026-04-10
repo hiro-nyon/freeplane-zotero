@@ -2,5 +2,4 @@
 
 import com.petervelosy.freeplanezotero.Zotero
 
-def zotero = new Zotero(ui, logger, c, map)
-zotero.removeCitation(node)
+new Zotero(ui, logger, c, map).openLinkedItemInZotero(node)

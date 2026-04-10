@@ -70,7 +70,7 @@
 </hook>
 <hook NAME="AutomaticEdgeColor" COUNTER="11" RULE="ON_BRANCH_CREATION"/>
 <attribute NAME="name" VALUE="freeplane-zotero"/>
-<attribute NAME="version" VALUE="v0.1" OBJECT="org.freeplane.features.format.FormattedObject|java.lang.String&amp;#x7c;v0.1|number:decimal:#0.####"/>
+<attribute NAME="version" VALUE="v0.2" OBJECT="org.freeplane.features.format.FormattedObject|java.lang.String&amp;#x7c;v0.2|number:decimal:#0.####"/>
 <attribute NAME="author" VALUE="Peter Kristof Velosy"/>
 <attribute NAME="freeplaneVersionFrom" VALUE="v1.8" OBJECT="org.freeplane.features.format.FormattedObject|java.lang.String&amp;#x7c;v1.8|number:decimal:#0.####"/>
 <attribute NAME="freeplaneVersionTo" VALUE=""/>
@@ -128,7 +128,7 @@
     </p>
   </body>
 </html></richcontent>
-<node TEXT="A Freeplane addon which makes it possible to assign citations from Zotero (an excellent open source reference manager) to any node on a Freeplane mind map." ID="ID_408830492" CREATED="1639885419520" MODIFIED="1639885435812"/>
+<node TEXT="A Freeplane add-on for attaching, organizing, refreshing, styling and exporting Zotero-backed literature notes inside a Freeplane map." ID="ID_408830492" CREATED="1639885419520" MODIFIED="1712743200000"/>
 </node>
 <node TEXT="changes" POSITION="top_or_left" ID="ID_623818723" CREATED="1639818486070" MODIFIED="1639888032502">
 <edge COLOR="#0000ff"/>
@@ -230,9 +230,21 @@
 </html></richcontent>
 <node TEXT="en" ID="ID_702828840" CREATED="1639818486111" MODIFIED="1639887905991">
 <attribute NAME="addons.${name}" VALUE="Zotero"/>
-<attribute NAME="addons.${name}.assignCitationsToNode" VALUE="Assign citation(s) to node"/>
-<attribute NAME="addons.${name}.removeCitationsFromNode" VALUE="Remove citation(s) from node"/>
-<attribute NAME="addons.${name}.refreshCitations" VALUE="Refresh all citations"/>
+<attribute NAME="addons.${name}.assignCitationsToNode" VALUE="Attach citation to selected node"/>
+<attribute NAME="addons.${name}.removeCitationsFromNode" VALUE="Remove citation from selected node"/>
+<attribute NAME="addons.${name}.checkZoteroHealth" VALUE="Check Zotero connection"/>
+<attribute NAME="addons.${name}.refreshSelectedNode" VALUE="Refresh selected node"/>
+<attribute NAME="addons.${name}.refreshSelectedSubtree" VALUE="Refresh selected subtree"/>
+<attribute NAME="addons.${name}.refreshWholeMap" VALUE="Refresh whole map"/>
+<attribute NAME="addons.${name}.convertNodeToPaperCard" VALUE="Convert selected node to paper card"/>
+<attribute NAME="addons.${name}.createLiteratureReviewTemplateMap" VALUE="Create literature review template"/>
+<attribute NAME="addons.${name}.openLinkedItemInZotero" VALUE="Open linked item in Zotero"/>
+<attribute NAME="addons.${name}.filterNodes" VALUE="Filter nodes by metadata"/>
+<attribute NAME="addons.${name}.highlightNodes" VALUE="Highlight nodes by metadata"/>
+<attribute NAME="addons.${name}.clearVisualFiltersAndHighlights" VALUE="Clear visual filters/highlights"/>
+<attribute NAME="addons.${name}.exportSelectedSubtreeMarkdown" VALUE="Export selected subtree to Markdown"/>
+<attribute NAME="addons.${name}.exportSelectedPapersCsv" VALUE="Export selected papers to CSV"/>
+<attribute NAME="addons.${name}.exportSelectedItemKeys" VALUE="Export selected item keys"/>
 </node>
 </node>
 <node TEXT="deinstall" POSITION="top_or_left" ID="ID_1682760568" CREATED="1639818486162" MODIFIED="1639888035554">
@@ -251,7 +263,19 @@
 <attribute NAME="delete" VALUE="${installationbase}/addons/${name}.script.xml"/>
 <attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/assignCitationsToNode.groovy"/>
 <attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/removeCitationsFromNode.groovy"/>
-<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/refreshCitations.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/checkZoteroHealth.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/refreshSelectedNode.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/refreshSelectedSubtree.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/refreshWholeMap.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/convertNodeToPaperCard.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/createLiteratureReviewTemplateMap.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/openLinkedItemInZotero.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/filterNodes.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/highlightNodes.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/clearVisualFiltersAndHighlights.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/exportSelectedSubtreeMarkdown.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/exportSelectedPapersCsv.groovy"/>
+<attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/exportSelectedItemKeys.groovy"/>
 <attribute NAME="delete" VALUE="${installationbase}/addons/${name}/scripts/zotero.groovy"/>
 <attribute NAME="delete" VALUE="${installationbase}/addons/${name}/lib/freeplane-zotero.jar"/>
 </node>
@@ -376,7 +400,7 @@
 <node TEXT="assignCitationsToNode.groovy" ID="ID_973984895" CREATED="1639885487103" MODIFIED="1639887373312">
 <attribute NAME="menuTitleKey" VALUE="addons.${name}.assignCitationsToNode"/>
 <attribute NAME="menuLocation" VALUE="/node_popup/addons.${name}"/>
-<attribute NAME="executionMode" VALUE="on_selected_node"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
 <attribute NAME="keyboardShortcut" VALUE=""/>
 <attribute NAME="execute_scripts_without_asking" VALUE="true"/>
 <attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
@@ -387,6 +411,61 @@
 <node TEXT="removeCitationsFromNode.groovy" ID="ID_1928871750" CREATED="1639885533253" MODIFIED="1639887513969">
 <attribute NAME="menuTitleKey" VALUE="addons.${name}.removeCitationsFromNode"/>
 <attribute NAME="menuLocation" VALUE="/node_popup/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="checkZoteroHealth.groovy" ID="ID_479876816" CREATED="1639885762345" MODIFIED="1712743200001">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.checkZoteroHealth"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="refreshSelectedNode.groovy" ID="ID_934000001" CREATED="1712743200002" MODIFIED="1712743200002">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.refreshSelectedNode"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="refreshSelectedSubtree.groovy" ID="ID_934000002" CREATED="1712743200003" MODIFIED="1712743200003">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.refreshSelectedSubtree"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="refreshWholeMap.groovy" ID="ID_934000003" CREATED="1712743200004" MODIFIED="1712743200004">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.refreshWholeMap"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="convertNodeToPaperCard.groovy" ID="ID_934000004" CREATED="1712743200005" MODIFIED="1712743200005">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.convertNodeToPaperCard"/>
+<attribute NAME="menuLocation" VALUE="/node_popup/addons.${name}"/>
 <attribute NAME="executionMode" VALUE="on_selected_node"/>
 <attribute NAME="keyboardShortcut" VALUE=""/>
 <attribute NAME="execute_scripts_without_asking" VALUE="true"/>
@@ -395,8 +474,85 @@
 <attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
 <attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
 </node>
-<node TEXT="refreshCitations.groovy" ID="ID_479876816" CREATED="1639885762345" MODIFIED="1639887541024">
-<attribute NAME="menuTitleKey" VALUE="addons.${name}.refreshCitations"/>
+<node TEXT="createLiteratureReviewTemplateMap.groovy" ID="ID_934000005" CREATED="1712743200006" MODIFIED="1712743200006">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.createLiteratureReviewTemplateMap"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="openLinkedItemInZotero.groovy" ID="ID_934000006" CREATED="1712743200007" MODIFIED="1712743200007">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.openLinkedItemInZotero"/>
+<attribute NAME="menuLocation" VALUE="/node_popup/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="filterNodes.groovy" ID="ID_934000007" CREATED="1712743200008" MODIFIED="1712743200008">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.filterNodes"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="highlightNodes.groovy" ID="ID_934000008" CREATED="1712743200009" MODIFIED="1712743200009">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.highlightNodes"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="clearVisualFiltersAndHighlights.groovy" ID="ID_934000009" CREATED="1712743200010" MODIFIED="1712743200010">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.clearVisualFiltersAndHighlights"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="exportSelectedSubtreeMarkdown.groovy" ID="ID_934000010" CREATED="1712743200011" MODIFIED="1712743200011">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.exportSelectedSubtreeMarkdown"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="exportSelectedPapersCsv.groovy" ID="ID_934000011" CREATED="1712743200012" MODIFIED="1712743200012">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.exportSelectedPapersCsv"/>
+<attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
+<attribute NAME="executionMode" VALUE="on_single_node"/>
+<attribute NAME="keyboardShortcut" VALUE=""/>
+<attribute NAME="execute_scripts_without_asking" VALUE="true"/>
+<attribute NAME="execute_scripts_without_file_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_write_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_exec_restriction" VALUE="true"/>
+<attribute NAME="execute_scripts_without_network_restriction" VALUE="true"/>
+</node>
+<node TEXT="exportSelectedItemKeys.groovy" ID="ID_934000012" CREATED="1712743200013" MODIFIED="1712743200013">
+<attribute NAME="menuTitleKey" VALUE="addons.${name}.exportSelectedItemKeys"/>
 <attribute NAME="menuLocation" VALUE="/main_menu/extras/addons.${name}"/>
 <attribute NAME="executionMode" VALUE="on_single_node"/>
 <attribute NAME="keyboardShortcut" VALUE=""/>
